@@ -5,6 +5,7 @@ import (
 	"mind_share/dao/mysql"
 	"mind_share/dao/redis"
 	"mind_share/logger"
+	"mind_share/pkg/snowflake"
 	"mind_share/router"
 	"mind_share/setting"
 	"os"
@@ -34,6 +35,11 @@ func main() {
 		return
 	}
 	defer redis.Close()
+
+	if err := snowflake.Init(setting.Conf.StartTime, setting.Conf.MachineID); err != nil {
+		fmt.Printf("init snowflake failed, err:%v\n", err)
+		return
+	}
 
 	// 注册路由
 	r := router.SetupRouter(setting.Conf.Mode)
