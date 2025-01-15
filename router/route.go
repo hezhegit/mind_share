@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"mind_share/controller"
 	"mind_share/logger"
 	"net/http"
@@ -10,6 +11,12 @@ import (
 
 // SetupRouter 路由
 func SetupRouter(mode string) *gin.Engine {
+	// 初始化gin框架内置的翻译器
+	if err := controller.InitTrans("zh"); err != nil {
+		fmt.Printf("init trans failed, err:%v\n", err)
+		return nil
+	}
+
 	if mode == gin.ReleaseMode {
 		gin.SetMode(gin.ReleaseMode) // gin设置成发布模式
 	}
