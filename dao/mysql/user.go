@@ -10,6 +10,12 @@ import (
 
 const secret = "mind-share"
 
+var (
+	ErrUserExists      = errors.New("user already exists")
+	ErrUserNotExists   = errors.New("user does not exists")
+	ErrInvalidPassword = errors.New("invalid password")
+)
+
 func CheckUserExist(username string) (err error) {
 	sqlStr := `select count(1) from user where username=?`
 	var count int
@@ -18,7 +24,7 @@ func CheckUserExist(username string) (err error) {
 	}
 
 	if count > 0 {
-		return errors.New("用户已存在！")
+		return ErrUserExists
 	}
 
 	return nil
@@ -42,7 +48,7 @@ func Login(user *models.User) (err error) {
 	sqlStr := `select user_id, username, password from user where username=?`
 	err = db.Get(user, sqlStr, user.Username)
 	if err == sql.ErrNoRows {
-		return errors.New("用户不存在")
+		return ErrUserNotExists
 	}
 
 	if err != nil {
@@ -51,7 +57,7 @@ func Login(user *models.User) (err error) {
 	// 判断密码是否正确
 	password := encryptPassword(oPassword)
 	if password != user.Password {
-		return errors.New("密码错误")
+		return ErrInvalidPassword
 	}
 
 	return nil
