@@ -28,7 +28,13 @@ func SignUpHandler(c *gin.Context) {
 		return
 	}
 	// 2. 业务处理
-	logic.SignUp(p)
+	if err := logic.SignUp(p); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"msg": err.Error(),
+		})
+
+		return
+	}
 	// 3. 返回响应
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
