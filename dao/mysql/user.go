@@ -4,17 +4,10 @@ import (
 	"crypto/md5"
 	"database/sql"
 	"encoding/hex"
-	"errors"
 	"mind_share/models"
 )
 
 const secret = "mind-share"
-
-var (
-	ErrUserExists      = errors.New("user already exists")
-	ErrUserNotExists   = errors.New("user does not exists")
-	ErrInvalidPassword = errors.New("invalid password")
-)
 
 func CheckUserExist(username string) (err error) {
 	sqlStr := `select count(1) from user where username=?`

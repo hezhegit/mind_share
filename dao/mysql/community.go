@@ -22,3 +22,14 @@ func GetCommunityList() (communityList []*models.Community, err error) {
 	// 查询成功后，正常返回数据
 	return communityList, nil
 }
+
+func GetCommunityDetail(id int64) (communityDetail *models.CommunityDetail, err error) {
+	communityDetail = new(models.CommunityDetail)
+	sqlStr := "select community_id, community_name, introduction, create_time from community where community_id = ?"
+	if err = db.Get(communityDetail, sqlStr, id); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			err = ErrInvalidID
+		}
+	}
+	return communityDetail, err
+}

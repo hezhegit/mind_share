@@ -1,6 +1,9 @@
-### 登录
+### 所有社区列表
 GET http://localhost:8084/api/v1/community
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
-###
+### 根据id查询社区详情
+GET http://localhost:8084/api/v1/community/3
+Content-Type: application/json
+Authorization:Bearer {{token}}
