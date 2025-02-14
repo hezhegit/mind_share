@@ -1,0 +1,6 @@
+### 登录
+GET http://localhost:8084/api/v1/community
+Content-Type: application/json
+Authorization:Bearer {{token}}
+
+###
