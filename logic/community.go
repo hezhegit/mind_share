@@ -23,6 +23,23 @@ func CreatePost(p *models.Post) error {
 
 }
 
-func SelectPostByID(id int64) (*models.Post, error) {
-	return mysql.SelectPostByID(id)
+func SelectPostByID(id int64) (data *models.PostDetail, err error) {
+	post, err := mysql.GetPostByID(id)
+	if err != nil {
+		return nil, err
+	}
+	communityDetail, err := mysql.GetCommunityDetail(post.CommunityID)
+	if err != nil {
+		return nil, err
+	}
+	user, err := mysql.GetUserByID(post.AuthorID)
+	if err != nil {
+		return nil, err
+	}
+	data = new(models.PostDetail)
+	data.AuthorName = user.Username
+	data.Post = post
+	data.CommunityDetail = communityDetail
+	return
+
 }

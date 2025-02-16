@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"database/sql"
 	"encoding/hex"
+	"errors"
 	"mind_share/models"
 )
 
@@ -55,4 +56,15 @@ func Login(user *models.User) (err error) {
 
 	return nil
 
+}
+
+func GetUserByID(id int64) (user *models.User, err error) {
+	user = new(models.User)
+	sqlStr := "select user_id, username from user where user_id = ?"
+	if err = db.Get(user, sqlStr, id); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			err = ErrInvalidID
+		}
+	}
+	return
 }
