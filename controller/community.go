@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"mind_share/logic"
+	"mind_share/models"
 	"strconv"
 )
 
@@ -37,4 +38,31 @@ func CommunityDetailHandler(c *gin.Context) {
 	}
 	ResponseSuccess(c, data)
 
+}
+
+func CreatePostHandler(c *gin.Context) {
+	// 1. 获取参数及参数的校验
+	p := new(models.Post)
+	if err := c.ShouldBindJSON(&p); err != nil {
+		zap.L().Debug("ShouldBindJSON failed", zap.Any("err", err))
+		ResponseError(c, CodeInvalidParam)
+		return
+	}
+
+	// 	取得当前发请求的用户ID
+	userID, err := getCurrentUserID(c)
+	if err != nil {
+		ResponseError(c, CodeNeedLogin)
+	}
+	p.AuthorID = userID
+
+	// 2. 创建帖子 logic
+	if err := logic.CreatePost(p); err != nil {
+		zap.L().Error("logic.CreatePost() failed", zap.Error(err))
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+
+	// 3. 返回响应
+	ResponseSuccess(c, nil)
 }

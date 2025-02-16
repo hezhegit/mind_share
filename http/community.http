@@ -7,3 +7,16 @@ Authorization:Bearer {{token}}
 GET http://localhost:8084/api/v1/community/3
 Content-Type: application/json
 Authorization:Bearer {{token}}
+
+###
+POST http://localhost:8084/api/v1/post
+Content-Type: application/json
+Authorization:Bearer {{token}}
+
+{
+  "title": "测试==",
+  "content": "Studying makes me happy.",
+  "community_id": 1
+}
+
+###

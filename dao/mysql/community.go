@@ -33,3 +33,10 @@ func GetCommunityDetail(id int64) (communityDetail *models.CommunityDetail, err 
 	}
 	return communityDetail, err
 }
+
+func CreatePost(p *models.Post) error {
+	sqlStr := "insert into post (post_id, title, content, author_id, community_id) values (?, ?, ?, ?, ?)"
+
+	_, err := db.Exec(sqlStr, p.ID, p.Title, p.Content, p.AuthorID, p.CommunityID)
+	return err
+}
