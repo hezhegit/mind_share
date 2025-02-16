@@ -40,3 +40,14 @@ func CreatePost(p *models.Post) error {
 	_, err := db.Exec(sqlStr, p.ID, p.Title, p.Content, p.AuthorID, p.CommunityID)
 	return err
 }
+
+func SelectPostByID(id int64) (p *models.Post, err error) {
+	p = new(models.Post)
+	sqlStr := "select post_id, title, content, author_id, community_id, create_time from post where post_id = ?"
+	if err = db.Get(p, sqlStr, id); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			err = ErrInvalidID
+		}
+	}
+	return
+}

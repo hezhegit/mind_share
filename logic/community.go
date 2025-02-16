@@ -22,3 +22,7 @@ func CreatePost(p *models.Post) error {
 	return mysql.CreatePost(p)
 
 }
+
+func SelectPostByID(id int64) (*models.Post, error) {
+	return mysql.SelectPostByID(id)
+}

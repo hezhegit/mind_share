@@ -66,3 +66,23 @@ func CreatePostHandler(c *gin.Context) {
 	// 3. 返回响应
 	ResponseSuccess(c, nil)
 }
+
+func SelectPostByIDHandler(c *gin.Context) {
+	// 1. 获取参数
+	idStr := c.Param("id")
+	postID, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		ResponseError(c, CodeInvalidParam)
+		return
+	}
+	// 2. 查询该id的帖子
+	p, err := logic.SelectPostByID(postID)
+	if err != nil {
+		zap.L().Error("logic.SelectPostByID() failed", zap.Error(err))
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+
+	// 3. 返回响应
+	ResponseSuccess(c, p)
+}

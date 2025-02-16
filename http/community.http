@@ -8,7 +8,7 @@ GET http://localhost:8084/api/v1/community/3
 Content-Type: application/json
 Authorization:Bearer {{token}}
 
-###
+### 新建帖子
 POST http://localhost:8084/api/v1/post
 Content-Type: application/json
 Authorization:Bearer {{token}}
@@ -18,5 +18,10 @@ Authorization:Bearer {{token}}
   "content": "Studying makes me happy.",
   "community_id": 1
 }
+
+### 根据id 查询帖子
+GET http://localhost:8084/api/v1/post/16788541648408576
+Accept: application/json
+Authorization:Bearer {{token}}
 
 ###
