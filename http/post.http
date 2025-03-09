@@ -1,0 +1,6 @@
+###
+GET http://localhost:8084/api/v1/posts/
+Accept: application/json
+Authorization:Bearer {{token}}
+
+###

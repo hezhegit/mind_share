@@ -14,9 +14,9 @@ Content-Type: application/json
 Authorization:Bearer {{token}}
 
 {
-  "title": "测试==",
-  "content": "Studying makes me happy.",
-  "community_id": 1
+  "title": "好好学习",
+  "content": "have a choice.",
+  "community_id": 2
 }
 
 ### 根据id 查询帖子
