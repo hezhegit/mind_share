@@ -24,10 +24,10 @@ func GetPostByID(id int64) (p *models.Post, err error) {
 	return
 }
 
-func GetPostList() (p []*models.Post, err error) {
-	sqlStr := `select post_id, title, content, author_id, community_id, create_time from post limit 2`
+func GetPostList(pageNum, pageSize int64) (p []*models.Post, err error) {
+	sqlStr := `select post_id, title, content, author_id, community_id, create_time from post limit ?,?`
 	p = make([]*models.Post, 0, 2) // 长度-容量
-	err = db.Select(&p, sqlStr)
+	err = db.Select(&p, sqlStr, (pageNum-1)*pageSize, pageSize)
 	return
 
 }

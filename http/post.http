@@ -1,6 +1,6 @@
 ###
-GET http://localhost:8084/api/v1/posts/
-Accept: application/json
+GET http://localhost:8084/api/v1/posts/?size=1&page=3
+Content-Type: application/json
 Authorization:Bearer {{token}}
 
 ###

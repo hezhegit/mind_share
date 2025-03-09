@@ -35,8 +35,8 @@ func SelectPostByID(id int64) (data *models.PostDetail, err error) {
 
 }
 
-func GetPostList() (data []*models.PostDetail, err error) {
-	posts, err := mysql.GetPostList()
+func GetPostList(pageNum, pageSize int64) (data []*models.PostDetail, err error) {
+	posts, err := mysql.GetPostList(pageNum, pageSize)
 	if err != nil {
 		return nil, err
 	}

@@ -57,11 +57,34 @@ func SelectPostByIDHandler(c *gin.Context) {
 
 // GetPostListHandler 获取帖子列表的接口
 func GetPostListHandler(c *gin.Context) {
-	data, err := logic.GetPostList()
+	pageNum, pageSize, _ := getPageInfo(c)
+
+	data, err := logic.GetPostList(pageNum, pageSize)
 	if err != nil {
 		zap.L().Error("logic.GetPostList() failed", zap.Error(err))
 		ResponseError(c, CodeServerBusy)
 		return
 	}
 	ResponseSuccess(c, data)
+}
+
+func getPageInfo(c *gin.Context) (int64, int64, error) {
+	// 分页 参数获取
+	var (
+		pageNum  int64
+		pageSize int64
+		err      error
+	)
+	pageNumStr := c.DefaultQuery("page", "1")
+	pageSizeStr := c.DefaultQuery("size", "5")
+	// Str 转换
+	pageNum, err = strconv.ParseInt(pageNumStr, 10, 64)
+	if err != nil {
+		pageNum = 0
+	}
+	pageSize, err = strconv.ParseInt(pageSizeStr, 10, 64)
+	if err != nil {
+		pageSize = 5
+	}
+	return pageNum, pageSize, err
 }
